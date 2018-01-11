@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd 
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+       default-lazy-init="false">
+
+
+    <!-- 	<description>Spring公共配置 </description> -->
+
+
+    <!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+    <context:component-scan base-package="com.tp"/>
+
+    <!-- Hibernate配置 -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.EhCacheRegionFactory</prop>
+                <prop key="net.sf.ehcache.configurationResourceName">${ehcache.location}</prop>
+            </props>
+        </property>
+        <property name="packagesToScan" value="com.tp.entity"/>
+    </bean>
+
+    <!-- 事务管理器配置,单数据源事务 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- propagation 默认为requeired isolation 默认为default 所以下面这两项 默认的话可以不配 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="batch*" propagation="REQUIRED" isolation="DEFAULT"/>
+            <tx:method name="load*" propagation="REQUIRED" isolation="DEFAULT"
+                       read-only="true"/>
+            <tx:method name="get*" propagation="REQUIRED" isolation="DEFAULT"
+                       read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" isolation="DEFAULT"
+                       read-only="true"/>
+            <!-- 剩下的其他方法. -->
+            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- aop配置 -->
+    <aop:config>
+        <aop:pointcut id="txPointcut" expression="execution(* com.tp.service..*(..))"/>
+        <!-- advisor是切入点通知(既包含切入点,有包含通知) -->
+        <!-- order 表示AOP的执行顺序, 对于同一个方法配置了order时 , order越低, 优先级越高. -->
+        <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <!-- 使用annotation定义事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+    <!--production环境 -->
+    <beans profile="production">
+        <context:property-placeholder
+                ignore-resource-not-found="true"
+                location="classpath*:/setup.properties, classpath*:/setup.production.properties"/>
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <property name="url" value="${jdbc.url}"/>
+            <property name="username" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+            <property name="initialSize" value="${jdbc.minsize}"/>
+            <property name="minIdle" value="${jdbc.minIdle}"/>
+            <property name="maxActive" value="${jdbc.maxsize}"/>
+            <property name="maxWait" value="60000"/>
+            <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+            <property name="minEvictableIdleTimeMillis" value="300000"/>
+            <property name="validationQuery" value="SELECT 'x'"/>
+            <property name="testWhileIdle" value="true"/>
+            <property name="testOnBorrow" value="false"/>
+            <property name="testOnReturn" value="false"/>
+            <property name="poolPreparedStatements" value="false"/>
+            <!-- <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+            <property name="filters" value="stat"/>
+        </bean>
+    </beans>
+
+    <!--local development环境-->
+    <beans profile="development">
+        <context:property-placeholder
+                ignore-resource-not-found="true"
+                location="classpath*:/setup.properties,
+          			  classpath*:/setup.development.properties"/>
+        <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+            <property name="url" value="${jdbc.url}"/>
+            <property name="username" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+            <property name="initialSize" value="${jdbc.minsize}"/>
+            <property name="minIdle" value="${jdbc.minIdle}"/>
+            <property name="maxActive" value="${jdbc.maxsize}"/>
+            <property name="maxWait" value="60000"/>
+            <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+            <property name="minEvictableIdleTimeMillis" value="300000"/>
+            <property name="validationQuery" value="SELECT 'x'"/>
+            <property name="testWhileIdle" value="true"/>
+            <property name="testOnBorrow" value="false"/>
+            <property name="testOnReturn" value="false"/>
+            <property name="poolPreparedStatements" value="false"/>
+            <!-- <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
+            <property name="filters" value="stat"/>
+        </bean>
+    </beans>
+
+    <!--<beans profile="test">-->
+    <!--<context:property-placeholder-->
+    <!--ignore-resource-not-found="true"-->
+    <!--location="classpath*:/setup.properties,classpath*:/setup.test.properties" />-->
+    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> -->
+    <!--<property name="url" value="${jdbc.url}" />-->
+    <!--<property name="username" value="${jdbc.username}" />-->
+    <!--<property name="password" value="${jdbc.password}" />-->
+    <!--<property name="initialSize" value="${jdbc.minsize}" />-->
+    <!--<property name="minIdle" value="${jdbc.minIdle}" /> -->
+    <!--<property name="maxActive" value="${jdbc.maxsize}" />-->
+    <!--<property name="maxWait" value="60000" />-->
+    <!--<property name="timeBetweenEvictionRunsMillis" value="60000" />-->
+    <!--<property name="minEvictableIdleTimeMillis" value="300000" />-->
+    <!--<property name="validationQuery" value="SELECT 'x'" />-->
+    <!--<property name="testWhileIdle" value="true" />-->
+    <!--<property name="testOnBorrow" value="false" />-->
+    <!--<property name="testOnReturn" value="false" />-->
+    <!--<property name="poolPreparedStatements" value="false" />-->
+    <!--&lt;!&ndash; <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> &ndash;&gt;-->
+    <!--<property name="filters" value="stat" /> -->
+    <!--</bean>-->
+    <!--<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL" enabled="false">-->
+    <!--<jdbc:script location="classpath:sql/schema-with-h2.sql" />-->
+    <!--</jdbc:initialize-database>-->
+    <!--</beans>-->
+</beans>

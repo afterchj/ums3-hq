@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.convention.default.parent.package"
+		value="crud-default" />
+	<constant name="struts.convention.package.locators" value="action" />
+	<constant name="struts.convention.package.locators.basePackage"
+		value="com" />
+	<constant name="struts.convention.result.path" value="/WEB-INF/views" />
+	<constant name="struts.multipart.maxSize" value="60000000" />
+	<constant name="struts.custom.i18n.resources" value="localStrings" />
+	<package name="crud-default" extends="json-default">
+		<!-- 基于paramsPrepareParamsStack, 增加store interceptor保证actionMessage在redirect后不会丢失 -->
+		<interceptors>
+			<interceptor-stack name="myInterceptor">
+				<interceptor-ref name="exception" />
+				<interceptor-ref name="alias" />
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="checkbox" />
+				<interceptor-ref name="multiselect" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+				</interceptor-ref>
+				<interceptor-ref name="servletConfig" />
+				<interceptor-ref name="prepare" />
+				<interceptor-ref name="chain" />
+				<interceptor-ref name="modelDriven" />
+				<interceptor-ref name="fileUpload">
+					<!-- 配置允许上传的文件类型 -->
+					<param name="allowedExtensions">png,jpg,apk,zip</param>
+					<!-- 配置允许上传的文件大小 20M -->
+					<param name="maximumSize">50000000</param>
+				</interceptor-ref>
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="actionMappingParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">dojo\..*,^struts\..*,^session\..*,^request\..*,^application\..*,^servlet(Request|Response)\..*,parameters\...*</param>
+				</interceptor-ref>
+				<interceptor-ref name="conversionError" />
+				<interceptor-ref name="validation">
+					<param name="excludeMethods">input,back,cancel,browse</param>
+				</interceptor-ref>
+				<interceptor-ref name="workflow">
+					<param name="excludeMethods">input,back,cancel,browse</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myInterceptor"></default-interceptor-ref>
+
+		<global-results>
+			<result name="notAuthorized">/WEB-INF/views/error/403.jsp</result>
+			<result type="redirect" name="auth">/logout.action</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping result="notAuthorized"
+				exception="org.apache.shiro.authz.UnauthorizedException"></exception-mapping>
+			<exception-mapping result="auth"
+				exception="org.apache.shiro.authz.AuthorizationException" />
+		</global-exception-mappings>
+
+	</package>
+	<!-- 使用Convention插件,实现约定大于配置的零配置文件风格. 特殊的Result路径在Action类中使用@Result设定. -->
+</struts>

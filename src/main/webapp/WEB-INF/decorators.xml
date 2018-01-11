@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/layouts/">
+	<excludes>
+		<pattern>/static/*</pattern>
+		<pattern>/api/*</pattern>
+		<pattern>/store/*</pattern>
+		<pattern>/home*</pattern>
+		<pattern>/nav/*</pattern>
+		<pattern>/login*</pattern>
+		<pattern>/mem/*!page.action*</pattern>
+		<pattern>/poll/*!page.action*</pattern>
+		<pattern>/report/*!page.action*</pattern>
+		<pattern>/trade/*!page.action*</pattern>
+	</excludes>
+	
+	<decorator name="default" page="default.jsp">
+		<pattern>/*</pattern>
+	</decorator>
+</decorators>

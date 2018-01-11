@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="src/main/java"/>
+	<buildpathentry kind="src" path="src/main/resources"/>
+	<buildpathentry kind="src" path="src/test/java"/>
+	<buildpathentry kind="src" path="src/test/resources"/>
+	<buildpathentry kind="src" path="src/test/functional"/>
+	<buildpathentry kind="con" path="org.eclipse.dltk.mod.launching.INTERPRETER_CONTAINER"/>
+	<buildpathentry kind="con" path="org.eclipse.vjet.eclipse.core.JSNATIVE_CONTAINER/JS Native Types"/>
+	<buildpathentry kind="con" path="org.eclipse.vjet.eclipse.core.BROWSER_CONTAINER/Browser SDK"/>
+	<buildpathentry external="true" kind="lib" path="/Users/xuwei/Documents/Tools/maven/.m2/repository/org/apache/struts/struts2-core/2.3.12/struts2-core-2.3.12.jar"/>
+	<buildpathentry external="true" kind="lib" path="/Users/xuwei/Documents/Tools/maven/.m2/repository/com/alibaba/druid/0.2.8/druid-0.2.8.jar"/>
+	<buildpathentry external="true" kind="lib" path="/Users/xuwei/Documents/Tools/maven/.m2/repository/org/seleniumhq/selenium/selenium-java/2.31.0/selenium-java-2.31.0.jar"/>
+	<buildpathentry external="true" kind="lib" path="/Users/xuwei/Documents/Tools/maven/.m2/repository/org/seleniumhq/selenium/selenium-safari-driver/2.31.0/selenium-safari-driver-2.31.0.jar"/>
+</buildpath>
