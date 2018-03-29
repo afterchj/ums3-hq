@@ -1,6 +1,6 @@
 package com.tp.test;
 
-import com.tp.entity.video.SPFile;
+import com.tp.entity.SPFile;
 import com.tp.entity.video.SPItem;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;

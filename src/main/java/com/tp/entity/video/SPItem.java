@@ -1,6 +1,7 @@
 package com.tp.entity.video;
 
 import com.tp.entity.LongIDEntity;
+import com.tp.entity.SPFile;
 
 import javax.persistence.*;
 import java.io.Serializable;

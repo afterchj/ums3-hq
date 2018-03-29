@@ -709,9 +709,9 @@
 			<properties>
 				<profiles.active>development</profiles.active>
 			</properties>
-			<activation>
-				 <activeByDefault>true</activeByDefault>
-			</activation>
+			<!--<activation>-->
+				 <!--<activeByDefault>true</activeByDefault>-->
+			<!--</activation>-->
 		</profile>
 		<!-- 本地CentOS测试环境 -->
 		<profile>
@@ -730,7 +730,7 @@
 				<profiles.active>production</profiles.active>
 			</properties>
 			<activation>
-				<!--<activeByDefault>true</activeByDefault>-->
+				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
 	</profiles>

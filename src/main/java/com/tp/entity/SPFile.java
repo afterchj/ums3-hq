@@ -1,6 +1,6 @@
-package com.tp.entity.video;
+package com.tp.entity;
 
-import com.tp.entity.LongIDEntity;
+import com.tp.entity.video.SPItem;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,14 +29,26 @@ public class SPFile extends LongIDEntity {
     private String createTime;
     //修改时间
     private String modifyTime;
+    //上架时间
+    private String onshelfTime;
     //是否最新(0-不是(默认)，1-是)
     private Integer isHot;
     //是否最热(0-不是(默认)，1-是)
     private Integer isNew;
     //是否推荐(0-不推荐(默认)，1-推荐)
     private Integer isRecommend;
+    //是否审核(0-待审核，1-审核成功，2：审核失败)
+    private Integer isCheck;
+    //天天锁屏用户uid
+    private String uid;
+    //是否上架
+    private long status;
     //其他(预留字段)
     private String other;
+    //头像路径
+    private String icon;
+    //昵称
+    private String nickname;
 
     private List<SPItem> items;
 
@@ -149,6 +161,58 @@ public class SPFile extends LongIDEntity {
         this.other = other;
     }
 
+    @Column(name = "onshelf_time", length = 30, nullable = true)
+    public String getOnshelfTime() {
+        return onshelfTime;
+    }
+
+    public void setOnshelfTime(String onshelfTime) {
+        this.onshelfTime = onshelfTime;
+    }
+
+    @Column(name = "is_check", length = 2, nullable = true)
+    public Integer getIsCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(Integer isCheck) {
+        this.isCheck = isCheck;
+    }
+
+    @Column(name = "uid", length = 32, nullable = true)
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @Column(nullable = false, columnDefinition = "INT default 0")
+    public long getStatus() {
+        return status;
+    }
+
+    public void setStatus(long status) {
+        this.status = status;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "sp_category_file", joinColumns = {@JoinColumn(name = "file_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
     public List<SPItem> getItems() {
@@ -157,5 +221,30 @@ public class SPFile extends LongIDEntity {
 
     public void setItems(List<SPItem> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "SPFile{" +
+                "name='" + name + '\'' +
+                ", size=" + size + '\'' +
+                ", duration=" + duration + '\'' +
+                ", downloadPath='" + downloadPath + '\'' +
+                ", iconPath='" + iconPath + '\'' +
+                ", lable='" + lable + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", onshelfTime='" + onshelfTime + '\'' +
+                ", isHot=" + isHot + '\'' +
+                ", isNew=" + isNew + '\'' +
+                ", isRecommend=" + isRecommend + '\'' +
+                ", isCheck=" + isCheck + '\'' +
+                ", uid=" + uid + '\'' +
+                ", status=" + uid + '\'' +
+                ", icon=" + icon + '\'' +
+                ", nickname=" + nickname + '\'' +
+                ", other='" + other + '\'' +
+                ", items=" + items +
+                '}';
     }
 }

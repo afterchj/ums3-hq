@@ -19,6 +19,9 @@
             $("#category-sp").addClass("active");
             $("#category-sp a").append("<i class='icon-remove-circle'></i>");
             $("#standard").addClass("active");
+
+//            $(".myTp").style.display='none';
+            $("#test2").addClass("acTp");
         });
         function deleteThis(id) {
             if (confirm("确定要删除吗?")) {
@@ -50,7 +53,7 @@
             <tr>
                 <td>${value}</td>
                 <td><img alt="${name}" src="${ctx}/files/${icon}" style="height: 50px;width: 50px;"></td>
-                <%--<td><img alt="${name}" src="${icon}" style="height: 30px;width: 50px;"></td>--%>
+                    <%--<td><img alt="${name}" src="${icon}" style="height: 30px;width: 50px;"></td>--%>
                 <td>${name}</td>
                 <td>${description}</td>
                 <td><shiro:hasPermission name="category:edit">

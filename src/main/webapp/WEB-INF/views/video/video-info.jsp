@@ -19,6 +19,7 @@
             $("#category-sp").addClass("active");
             $("#category-sp a").append("<i class='icon-remove-circle'></i>");
             $("#standard").addClass("active");
+            $("#test2").addClass("acTp");
         });
         function deleteThis(id, pid) {
             if (confirm("确定要删除吗?")) {

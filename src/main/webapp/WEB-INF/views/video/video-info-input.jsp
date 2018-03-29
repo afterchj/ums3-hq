@@ -21,7 +21,7 @@
             $("#name").focus();
             $("#category-sp").addClass("active");
             $("#category-sp a").append("<i class='icon-remove-circle'></i>");
-
+            $("#test2").addClass("acTp");
         });
     </script>
 </head>
