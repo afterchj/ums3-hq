@@ -46,7 +46,7 @@
                         ids.push(boxes[i].value);
                     }
                 }
-                window.location = "file/spfile-passed!changeAll.action?selectedIds=" + ids.toString();
+                window.location = "file/spfile-passed!changeAll.action?selectedIds=" + ids;
             });
 
             $("#deleteAll").click(function () {

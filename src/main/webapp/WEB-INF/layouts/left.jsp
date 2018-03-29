@@ -38,6 +38,7 @@
     <div class="test">
         <ul class="nav nav-list">
             <li id="home-tab"><a href="/ums3-hq"><i class="icon-home"></i>首页</a></li>
+            <li id="home-test"><a href="test/test.action"><i class="icon-home"></i>测试</a></li>
             <ul class="nav nav-list">
                 <shiro:hasPermission name="user:view">
                     <li class="nav-header" onclick="show('test')"><i class="icon-cog"></i>系统管理</li>

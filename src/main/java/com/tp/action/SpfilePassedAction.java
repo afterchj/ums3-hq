@@ -41,7 +41,6 @@ public class SpfilePassedAction extends CRUDActionSupport<SPFile> {
     private String childrenName;
     private String selectedIds;
 
-
     public Long getId() {
         return id;
     }
@@ -122,12 +121,12 @@ public class SpfilePassedAction extends CRUDActionSupport<SPFile> {
         this.selectedIds = selectedIds;
     }
 
-
     //    public String execute() throws Exception {
 //        return list();
 //    }
 
     public String list() throws Exception {
+
         items = videoTypeService.getAllTypes();
         for (SPItem item : items) {
             if (item.getId() == parent) {
@@ -160,10 +159,14 @@ public class SpfilePassedAction extends CRUDActionSupport<SPFile> {
     }
 
     public String changeAll() {
-        String[] ids = selectedIds.split(",");
-        System.out.println("ids.length=" + ids.length);
-        for (int i = 0; i < ids.length; i++) {
-            doChange(Long.parseLong(ids[i]));
+        System.out.println("ids=" + selectedIds);
+        if (selectedIds != null) {
+            String[] ids = selectedIds.split(",");
+            System.out.println("ids.length=" + ids.length);
+            for (int i = 0; i < ids.length; i++) {
+                System.out.println("id=" + ids[i]);
+                doChange(Long.parseLong(ids[i]));
+            }
         }
         return RELOAD;
     }
