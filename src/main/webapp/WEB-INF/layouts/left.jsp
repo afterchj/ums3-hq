@@ -51,6 +51,20 @@
                     </ul>
                 </shiro:hasPermission>
             </ul>
+
+            <ul class="nav nav-list">
+                <li class="nav-header" onclick="show('test2')"><i class="icon-book"></i>视频管理</li>
+                <ul class="myTp" id="test2">
+                    <li id="category-sp"><a href="video/video-type.action">视频分类</a></li>
+                    <li id="spSearch-tab"><a href="category/search.action">热搜列表</a></li>
+                    <%--<li id="splock-tab"><a href="file/spfile.action">视频列表</a></li>--%>
+                    <li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>
+                    <li id="spadvertisement-tab"><a
+                            href="poll/spadvertisement.action?filter_EQS_store=video&filter_EQS_dtype=top">广告位列表</a>
+                    </li>
+                </ul>
+            </ul>
+
             <ul class="nav nav-list">
                 <shiro:hasPermission name="member:view">
                     <li class="nav-header" onclick="show('test0')"><i class="icon-briefcase"></i>会员管理</li>
@@ -114,18 +128,6 @@
                     <li id="category-tab"><a href="category/category.action">文件分类</a></li>
                     <li id="ccategory-tab"><a href="category/client-type.action">客户端分类</a></li>
                     <li id="shelf-tab"><a href="category/shelf.action">标签分类</a></li>
-                </ul>
-            </ul>
-
-            <ul class="nav nav-list">
-                <li class="nav-header" onclick="show('test2')"><i class="icon-book"></i>视频管理</li>
-                <ul class="myTp" id="test2">
-                    <li id="splock-tab"><a href="file/spfile.action">视频列表</a></li>
-                    <li id="category-sp"><a href="video/video-type.action">视频分类</a></li>
-                    <li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>
-                    <li id="spadvertisement-tab"><a
-                            href="poll/spadvertisement.action?filter_EQS_store=video&filter_EQS_dtype=top">广告位列表</a>
-                    </li>
                 </ul>
             </ul>
 

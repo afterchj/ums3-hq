@@ -36,7 +36,7 @@ public class SPFileManager {
     }
 
     //根据分类查询文件
-    public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId) {
+    public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId, String source) {
         return spFileDao.searchSPFileByCategory(page, categoryId, sonCategoryId);
     }
 

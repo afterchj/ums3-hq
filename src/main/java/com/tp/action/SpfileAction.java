@@ -50,6 +50,8 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
     private String parentCategory;//选中的父亲分类id
     private String sonCategory;//选中的子分类id
     private List<Long> checkedItems;
+    private String source;
+
 
     @RequiresPermissions("file:view")
     public String execute() throws Exception {
@@ -64,8 +66,8 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
             SPItem spItem = videoTypeService.getById(categoryId);
             subTypes = spItem.getChildren();
         }
-        System.out.println("categoryId="+categoryId+"\t"+"sonCategoryId="+sonCategoryId);
-        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId);
+        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId, source);
+
         sliders = page.getSlider(10);
         return SUCCESS;
     }
@@ -112,6 +114,7 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
             entity.setIsHot(0);
         } else {
             entity.setIsHot(1);
+            entity.setModifyTime(DateUtil.convert(new Date()));
         }
         spFileManager.saveSPFile(entity);
         return RELOAD;
@@ -124,7 +127,15 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
             entity.setIsNew(0);
         } else {
             entity.setIsNew(1);
+            entity.setModifyTime(DateUtil.convert(new Date()));
         }
+        spFileManager.saveSPFile(entity);
+        return RELOAD;
+    }
+
+    public String refresh() {
+        entity = spFileManager.getSPFile(id);
+        entity.setModifyTime(DateUtil.convert(new Date()));
         spFileManager.saveSPFile(entity);
         return RELOAD;
     }
@@ -184,10 +195,6 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
                     double d = (double) f.length() / 1024 / 1024;
                     d = Double.parseDouble(String.format("%.2f", d));
                     //设置文件大小
-                    entity.setSize(d);
-                    int duration = (int) (Math.random()+30);
-                    //设置视频时长
-                    entity.setDuration(duration);
                 }
             }
         }
@@ -327,6 +334,14 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
 
     public void setSonCategory(String sonCategory) {
         this.sonCategory = sonCategory;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public List<Long> getCheckedItems() {
