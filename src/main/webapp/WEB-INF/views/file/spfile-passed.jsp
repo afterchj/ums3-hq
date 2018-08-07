@@ -12,7 +12,7 @@
             $("#message").fadeOut(3000);
             $("#check-sp").addClass("active");
             $("#check-sp a").append("<i class='icon-remove-circle'></i>");
-            $("#test3").addClass("acTp");
+            $("#test2").addClass("acTp");
             $("#parent").change(function () {
                 var pid = $("#parent option:selected").val();
                 $.ajax({
