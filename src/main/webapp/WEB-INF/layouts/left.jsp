@@ -58,10 +58,8 @@
                     <li id="category-sp"><a href="video/video-type.action">视频分类</a></li>
                     <li id="spSearch-tab"><a href="category/search.action">热搜列表</a></li>
                     <%--<li id="splock-tab"><a href="file/spfile.action">视频列表</a></li>--%>
-                    <li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>
-                    <li id="spadvertisement-tab"><a
-                            href="poll/spadvertisement.action?filter_EQS_store=video&filter_EQS_dtype=top">广告位列表</a>
-                    </li>
+                    <%--<li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>--%>
+                    <%--<li id="spadvertisement-tab"><a href="poll/spadvertisement.action?filter_EQS_store=video&filter_EQS_dtype=top">广告位列表</a></li>--%>
                 </ul>
             </ul>
 
@@ -171,7 +169,8 @@
                     <li id="report-base-coins-tab"><a href="report/report-base-coins!list.action">总体积分日报</a></li>
                     <li id="report-base-cpa-tab"><a href="report/report-base-cpa!list.action">总体CPA日报</a></li>
                     <li id="report-per-task-tab"><a href="report/report-per-task!list.action">单个任务日报</a></li>
-                    <li id="report-task-invitation-tab"><a href="report/report-task-invitation!list.action">邀请任务日报</a></li>
+                    <li id="report-task-invitation-tab"><a href="report/report-task-invitation!list.action">邀请任务日报</a>
+                    </li>
                     <li id="report-user-coins-tab"><a href="report/report-user-coins!list.action">用户积分日报</a></li>
                     <shiro:hasPermission name="feedback:view">
                         <li id="feedback-tab"><a href="report/feedback.action">用户意见反馈</a></li>
