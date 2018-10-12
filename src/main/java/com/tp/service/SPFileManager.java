@@ -2,6 +2,7 @@ package com.tp.service;
 
 import com.google.common.collect.Lists;
 import com.tp.dao.SPFileDao;
+import com.tp.dao.VideoTypeDao;
 import com.tp.dto.FileDTO;
 import com.tp.entity.SPFile;
 import com.tp.entity.video.SPItem;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Component
@@ -18,6 +20,10 @@ import java.util.List;
 public class SPFileManager {
 
     private SPFileDao spFileDao;
+
+
+    @Resource
+    VideoTypeService videoTypeService;
 
     //根据id查询视频文件
     public SPFile getSPFile(Long id) {
@@ -39,7 +45,10 @@ public class SPFileManager {
     public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId) {
         return spFileDao.searchSPFileByCategory(page, categoryId, sonCategoryId);
     }
-
+    //根据分类查询文件
+    public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId, String source) {
+        return spFileDao.searchSPFileByCategory(page, categoryId, sonCategoryId,source);
+    }
     public Page<SPFile> searchUserSPFileByCategory(final Page<SPFile> page, Long status, Long categoryId, Long sonCategoryId) {
         return spFileDao.searchUserSPFileByCategory(page, status, categoryId, sonCategoryId);
     }
@@ -59,6 +68,7 @@ public class SPFileManager {
         this.spFileDao = spFileDao;
     }
 
+
     public String jsonString(List<SPItem> spItems) {
         List<FileDTO> fileDtos = Lists.newArrayList();
 
@@ -72,5 +82,20 @@ public class SPFileManager {
         return mapper.toJson(fileDtos);
 
     }
+
+
+    public List<SPItem> getAllTypes() {
+        return videoTypeService.getAllTypes();
+    }
+
+
+    public List<SPItem> getParentTypes() {
+        return videoTypeService.getParentTypes();
+    }
+
+    public SPItem getById(Long id) {
+        return videoTypeService.getById(id);
+    }
+
 
 }

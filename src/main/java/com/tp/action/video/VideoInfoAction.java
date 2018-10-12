@@ -1,14 +1,17 @@
 package com.tp.action.video;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.tp.action.CRUDActionSupport;
 import com.tp.entity.video.SPItem;
 import com.tp.service.VideoTypeService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,7 +63,7 @@ public class VideoInfoAction extends CRUDActionSupport<SPItem> {
 //        System.out.println("videoInfo.save id=" + id + "  " + pid);
 //        ActionContext ac = ActionContext.getContext();
 //        ServletContext sc = (ServletContext) ac.get(ServletActionContext.SERVLET_CONTEXT);
-//        String path = sc.getRealPath("/category/");
+//        String path = sc.getRealPath("/files");
         SPItem type = new SPItem();
         if (pid != null) {
             type.setId(pid);
@@ -70,7 +73,7 @@ public class VideoInfoAction extends CRUDActionSupport<SPItem> {
         entity.setDtype("children");
         entity.setParent(type);
         if (iicon != null) {
-            String iconPath = FileUtils.getIcon(iicon, Constants.CATEGROY_STORAGE, iiconFileName);
+            String iconPath = FileUtils.getIcon(iicon,  Constants.CATEGROY_STORAGE, iiconFileName);
 //            System.out.println("iconPath=" + iconPath);
             entity.setIcon(iconPath);
         }

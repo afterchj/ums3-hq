@@ -13,21 +13,48 @@
             $("#check-sp").addClass("active");
             $("#check-sp a").append("<i class='icon-remove-circle'></i>");
             $("#test3").addClass("acTp");
+
+            $("#parent option[value=" + '${param.parent}' + "]").attr("selected", true);
+            <%--$("#children option[value=" + '${param.children}' + "]").attr("selected", true);--%>
+
+            var getSubItems = function (pid, flag) {
+                    $.ajax({
+                        type: "get",
+                        url: "getJson?pid=" + pid,
+                        success: function (result) {
+                            var data = JSON.parse(result);
+                            var obj = document.getElementById("children");
+                            var cid = $("#children option:selected").val();
+                            obj.length = flag;
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].id!=cid){
+                                    obj.options.add(new Option(data[i].name, data[i].id));
+                                }
+                            }
+                        },
+                    });
+            };
             $("#parent").change(function () {
                 var pid = $("#parent option:selected").val();
-                $.ajax({
-                    type: "get",
-                    url: "getJson?pid=" + pid,
-                    success: function (result) {
-                        var data = JSON.parse(result);
-                        var obj = document.getElementById("children");
-                        obj.length = 1;
-                        for (var i = 0; i < data.length; i++) {
-                            obj.options.add(new Option(data[i].name, data[i].id));
-                        }
-                    },
-                });
+                getSubItems(pid, 1);
             });
+            getSubItems('${param.parent}', 2);
+
+//            $("#parent").change(function () {
+//                var pid = $("#parent option:selected").val();
+//                $.ajax({
+//                    type: "get",
+//                    url: "getJson?pid=" + pid,
+//                    success: function (result) {
+//                        var data = JSON.parse(result);
+//                        var obj = document.getElementById("children");
+//                        obj.length = 1;
+//                        for (var i = 0; i < data.length; i++) {
+//                            obj.options.add(new Option(data[i].name, data[i].id));
+//                        }
+//                    },
+//                });
+//            });
 
             //全选和反选
             $("#selectAll").click(function () {
@@ -112,9 +139,9 @@
                     <option value="">
                         全部
                     </option>
-                    <c:if test="${parent !=null}">
-                        <option value="${parent}" selected>${parentName}</option>
-                    </c:if>
+                    <%--<c:if test="${parent !=null}">--%>
+                    <%--<option value="${parent}" selected>${parentName}</option>--%>
+                    <%--</c:if>--%>
                     <c:if test="${not empty items}">
                         <c:forEach items="${items}" var="son">
                             <c:if test="${son.dtype=='parent'}">

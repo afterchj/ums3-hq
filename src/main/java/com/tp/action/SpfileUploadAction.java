@@ -58,7 +58,7 @@ public class SpfileUploadAction extends ActionSupport {
     //先初始化分类数据
     private void init() {
         parentTypes = videoTypeService.getParentTypes();
-        subTypes = parentTypes.get(0).getChildren();
+        subTypes = videoTypeService.getSubTypes();
     }
 
     @RequiresPermissions("file:edit")
@@ -91,7 +91,7 @@ public class SpfileUploadAction extends ActionSupport {
                         d = Double.parseDouble(String.format("%.2f", d));
                         //设置文件大小
                         entity.setSize(d);
-                        int duration = (int) (Math.random()*30);
+                        int duration = (int) (Math.random() * 30);
                         //设置视频时长
                         entity.setDuration(duration);
                     }

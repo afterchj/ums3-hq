@@ -14,9 +14,9 @@
     <script>
         $(document).ready(function () {
             $("#splock-tab").addClass("active");
-            $("#test2").addClass("acTp");
             $("#splock-tab a").append("<i class='icon-remove-circle'></i>");
             $('#percent').slider("setValue", $("#percent").val());
+            $("#test2").addClass("acTp");
         });
 
         function changeSonCategory(categoryId) {
@@ -67,17 +67,18 @@
 </head>
 <body>
 <h1>视频列表</h1>
-<form id="inputForm" action="file/spfile!save.action" method="post" enctype="multipart/form-data" class="form-horizontal">
+<form id="inputForm" action="video/video-file!save.action" method="post" enctype="multipart/form-data"
+      class="form-horizontal">
     <c:if test="${not empty actionMessages}">
         <div id="message" class="error">${actionMessages}</div>
     </c:if>
     <input type="hidden" value="${id}" name="id" id="spId"/>
     <div class="tabbable" style="margin-top: 10px;">
         <ul class="nav nav-tabs">
-            <li>视频信息</li>
+            <li class="active"><a href="#basic" data-toggle="tab">视频信息</a></li>
         </ul>
         <div class="tab-content">
-            <div id="basic">
+            <div class="tab-pane active" id="basic">
                 <div class="control-group">
                     <label for="name" class="control-label">文件名:</label>
                     <div class="controls">

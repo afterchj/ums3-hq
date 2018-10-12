@@ -20,7 +20,7 @@
 <body>
 <h1>测试功能</h1><br>
 <hr>
-<form action="test/test!input.action" method="post">
+<form action="test/test!input.action" method="get">
     <p>爱好：
     <ul style="list-style-type: none">
         <li><input type="checkbox" name="hobby" value="1">游泳</li>
@@ -28,7 +28,7 @@
         <li><input type="checkbox" name="hobby" value="3">唱歌</li>
     </ul>
     </p>
-    <p>
+    <p>地址：
         <select name="address">
             <option value="4">江西</option>
             <option value="5">江苏</option>

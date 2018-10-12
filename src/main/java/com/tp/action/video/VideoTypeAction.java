@@ -1,14 +1,17 @@
 package com.tp.action.video;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.tp.action.CRUDActionSupport;
 import com.tp.entity.video.SPItem;
 import com.tp.service.VideoTypeService;
 import com.tp.utils.Constants;
 import com.tp.utils.FileUtils;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.List;
 
@@ -46,10 +49,10 @@ public class VideoTypeAction extends CRUDActionSupport<SPItem> {
 //        System.out.println("id=" + id + ",type.id=" + entity.getId() + ",pid=" + pid);
 //        ActionContext ac = ActionContext.getContext();
 //        ServletContext sc = (ServletContext) ac.get(ServletActionContext.SERVLET_CONTEXT);
-//        String path = sc.getRealPath("/category/");
+//        String path = sc.getRealPath("/files");
         if (iicon != null) {
             String iconPath = FileUtils.getIcon(iicon, Constants.CATEGROY_STORAGE, iiconFileName);
-//            System.out.println("iconPath=" + iconPath);
+            System.out.println("iconPath=" + iconPath);
             entity.setIcon(iconPath);
         }
         entity.setDtype("parent");

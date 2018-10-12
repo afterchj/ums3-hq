@@ -26,7 +26,8 @@ public class UmsContext extends ContextLoaderListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         String profiles = event.getServletContext().getInitParameter("spring.profiles.default");
-		String customPath = "classpath:/setup." + profiles + ".properties";
+        System.out.println("profiles=======================》"+profiles);
+        String customPath = "classpath:/setup." + profiles + ".properties";
 		propertiesLoader.setProperties("classpath:/setup.properties", customPath);
 		Constants.TOMCAT_SHOW = propertiesLoader.getProperty("tomcat.show.location") + "/";
 		Constants.STATIC_SHOW = propertiesLoader.getProperty("static.show.location");

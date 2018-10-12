@@ -48,6 +48,7 @@ public class ShiroDbRealm extends AuthorizingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		User user = userDao.findUniqueResultByProperty("loginName", token.getUsername());
+		System.out.println("name======================================》"+user.getName());
 		if (user != null) {
 			if (!StringUtils.equals(user.getStatus(), "enabled")) {
 				throw new DisabledAccountException();

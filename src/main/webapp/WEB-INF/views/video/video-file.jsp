@@ -11,8 +11,9 @@
         $(document).ready(function () {
             $("#message").fadeOut(3000);
             $("#splock-tab").addClass("active");
-            $("#test2").addClass("acTp");
             $("#splock-tab a").append("<i class='icon-remove-circle'></i>");
+            $("#test2").style.display='block';
+
             var categoryId = '${param['categoryId']}';
             var sonCategoryId = '${param['sonCategoryId']}';
             if (categoryId == null) {
@@ -25,17 +26,6 @@
             } else {
                 $("#sonCategoryId" + sonCategoryId).addClass("active");
             }
-
-            var source = '${param['source']}';
-            if (source != null && source !='')  {
-                $("#source option[value="+source+"]").attr("selected",true);
-            }
-
-            $("#source").change(function() {
-                $("#content tr:not(:first)").remove();
-                var source = $(this).children('option:selected').val();
-                window.location = "file/spfile.action?source="+source;
-            });
         });
 
         function deleteThis(id) {
@@ -48,15 +38,15 @@
             window.location = "file/spfile-upload.action?categoryId=" + '${param['categoryId']}' + "&sonCategoryId=" + '${param['sonCategoryId']}';
         }
         function doHot(id, pageNo) {
-            window.location = "file/spfile!hotTag.action?id=" + id + "&page.pageNo=" + pageNo;
+            window.location = "video/video-file!hotTag.action?id=" + id + "&page.pageNo=" + pageNo;
         }
         function doNew(id, pageNo) {
-            window.location = "file/spfile!newTag.action?id=" + id + "&page.pageNo=" + pageNo;
+            window.location = "video/video-file!newTag.action?id=" + id + "&page.pageNo=" + pageNo;
         }
 
         function searchByName() {
             var title = $("#title").val().trim();
-            window.location = "file/spfile!searchByName.action?title=" + title;
+            window.location = "video/video-file!searchByName.action?title=" + title;
         }
 
 
@@ -64,7 +54,7 @@
 </head>
 <body>
 <h1>视频列表</h1>
-<form id="mainForm" action="file/spfile.action" method="post"
+<form id="mainForm" action="video/video-file.action" method="post"
       class="form-horizontal">
     <input type="hidden" name="categoryId"
            value="${param['categoryId']}">
@@ -78,12 +68,6 @@
     <div id="filter" style="display: inline; margin-left: 20px;">
         <input id="title" name="title" type="text" style="width:200px" size="20" placeholder="标题"/>&nbsp;
         <input id="search" type="button" value="搜索" name="search" onclick="searchByName();"/>
-        &nbsp;&nbsp;&nbsp;&nbsp;来源:
-        <select id="source" name="source">
-            <option value="0">全部</option>
-            <option value="1">用户投稿</option>
-            <option value="2">官方上传</option>
-        </select>
         <div class="pull-right">
             <a class="icon-plus" href="javascript:void(0)" onclick="doupload();">新增</a>
         </div>
@@ -91,11 +75,11 @@
     <div>
         <ul class="nav nav-pills" style="margin-bottom: 2px;">
             <li id="category"><a href="javascript:void(0)">大分类:</a>
-            <li id="categoryAll"><a href="file/spfile.action?source=${source}&categoryId=">全部</a>
+            <li id="categoryAll"><a href="video/video-file.action?categoryId=">全部</a>
             </li>
             <s:iterator value="parentTypes" var="parent">
                 <li id="categoryId${parent.id}"><a
-                        href="file/spfile.action?categoryId=${parent.id}&source=${source}">${parent.name}</a>
+                        href="video/video-file?categoryId=${parent.id}">${parent.name}</a>
                 </li>
             </s:iterator>
         </ul>
@@ -104,18 +88,18 @@
         <ul class="nav nav-pills" style="margin-bottom: 2px;">
             <li id="category"><a href="javascript:void(0)">小分类:</a>
             <li id="sonCategoryAll"><a
-                    href="file/spfile.action?source=${source}&categoryId=${categoryId}&sonCategoryId=">全部</a>
+                    href="video/video-file?categoryId=${categoryId}&sonCategoryId=">全部</a>
             </li>
             <c:if test="${not empty subTypes}">
                 <s:iterator value="subTypes" var="son">
                     <li id="sonCategoryId${son.id}"><a
-                            href="file/spfile.action?categoryId=${categoryId}&sonCategoryId=${son.id}&source=${source}">${son.name}</a>
+                            href="video/video-file.action?categoryId=${categoryId}&sonCategoryId=${son.id}">${son.name}</a>
                     </li>
                 </s:iterator>
             </c:if>
         </ul>
     </div>
-    <table id="content" class="table table-hover">
+    <table class="table table-hover">
         <thead>
         <tr>
             <th>视频编号</th>
@@ -136,7 +120,7 @@
                 </s:if>
                         ${id}
                 </td>
-                <td><a href="file/spfile!input.action?id=${id}&page.pageNo=${page.pageNo}">${name}</a></td>
+                <td><a href="video/video-file!input.action?id=${id}&page.pageNo=${page.pageNo}">${name}</a></td>
                 <td>${createTime}</td>
                 <td>${modifyTime}</td>
                 <td><a href="http://www.uichange.com/ums3-client2/files/${downloadPath}" target="_blank">视频预览</a></td>
@@ -163,8 +147,8 @@
                                 class="icon-heart-empty"></i></a>
                     </s:else>
                     &nbsp;
-                    <a href="javascript:void(0)" onclick="deleteThis('${id}')"><i class="icon-trash"></i></a> &nbsp;
-                    <a href="file/spfile!refresh.action?id=${id}"><i class="icon-refresh"></i></a>
+                    <a href="javascript:void(0)" onclick="deleteThis('${id}')"><i
+                            class="icon-trash"></i></a>
                 </shiro:hasPermission></td>
             </tr>
         </s:iterator>

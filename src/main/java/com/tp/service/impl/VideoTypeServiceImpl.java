@@ -12,7 +12,7 @@ import java.util.List;
  * Created by hongjian.chen on 2018/1/3.
  */
 
-@Service
+@Service("videoTypeService")
 public class VideoTypeServiceImpl implements VideoTypeService {
 
     String hql = "from SPItem where dtype= ? order by value";
@@ -34,6 +34,7 @@ public class VideoTypeServiceImpl implements VideoTypeService {
 
     @Override
     public List<SPItem> getSubTypes() {
+
         return videoTypeDao.getSubTypes(hql);
     }
 

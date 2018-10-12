@@ -1,45 +1,45 @@
-package com.tp.action;
+package com.tp.action.video;
 
 import com.google.common.collect.Lists;
+import com.tp.action.CRUDActionSupport;
 import com.tp.dao.HibernateUtils;
 import com.tp.entity.SPFile;
 import com.tp.entity.video.SPItem;
 import com.tp.orm.Page;
 import com.tp.service.SPFileManager;
+
 import com.tp.service.VideoTypeService;
-import com.tp.utils.Constants;
-import com.tp.utils.DateUtil;
-import com.tp.utils.FileUtils;
-import com.tp.utils.Struts2Utils;
+import com.tp.utils.*;
+import org.apache.log4j.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-@Namespace("/file")
-@Results({@Result(name = CRUDActionSupport.RELOAD, location = "spfile.action", params = {
+@Results({@Result(name = CRUDActionSupport.RELOAD, location = "video-file.action", params = {
         "page.pageNo", "${page.pageNo}"}, type = "redirect"),
-        @Result(name = "editinfo", location = "spfile!input.action", params = {
+        @Result(name = "editinfo", location = "video-file!input.action", params = {
                 "id", "${id}", "page.pageNo", "${page.pageNo}", "actionMessages", "${actionMessages}"}, type = "redirect")})
-public class SpfileAction extends CRUDActionSupport<SPFile> {
+public class VideoFileAction extends CRUDActionSupport<SPFile> {
+
 
     private static final long serialVersionUID = 1L;
     private static final String EDITINFO = "editinfo";
+
     private SPFile entity;
     private Long id;
     private Page<SPFile> page = new Page<SPFile>();
     private List<Integer> sliders = Lists.newArrayList();
     private SPFileManager spFileManager;
-    private VideoTypeService videoTypeService;
+
     private File file;
     private Long categoryId;
     private Long sonCategoryId;
@@ -51,24 +51,26 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
     private String parentCategory;//选中的父亲分类id
     private String sonCategory;//选中的子分类id
     private List<Long> checkedItems;
-    private String source;
-
 
     @RequiresPermissions("file:view")
     public String execute() throws Exception {
         return list();
     }
 
+    private static Logger logger = Logger.getLogger(VideoFileAction.class);
+
     @Override
     @RequiresPermissions("file:view")
     public String list() throws Exception {
-        parentTypes = videoTypeService.getParentTypes();
+//        logger.error("获取文件列表异常");
+//        String hql = "from SPItem where dtype= ? order by value";
+        parentTypes =spFileManager.getParentTypes();
         if (categoryId != null) {
-            SPItem spItem = videoTypeService.getById(categoryId);
+            SPItem spItem = spFileManager.getById(categoryId);
             subTypes = spItem.getChildren();
         }
-        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId, source);
-
+        System.out.println("categoryId=" + categoryId + "\t" + "sonCategoryId=" + sonCategoryId);
+        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId);
         sliders = page.getSlider(10);
         return SUCCESS;
     }
@@ -97,10 +99,10 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
                 }
             }
         }
-        parentTypes = videoTypeService.getParentTypes();
+        parentTypes = spFileManager.getParentTypes();
         if (parentIds != null && parentIds.size() > 0) {
             //有大分类
-            subTypes = videoTypeService.getById(parentIds.get(0)).getChildren();
+            subTypes = spFileManager.getById(parentIds.get(0)).getChildren();
         } else {
             //无大分类
             subTypes = parentTypes.get(0).getChildren();
@@ -115,7 +117,6 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
             entity.setIsHot(0);
         } else {
             entity.setIsHot(1);
-            entity.setModifyTime(DateUtil.convert(new Date()));
         }
         spFileManager.saveSPFile(entity);
         return RELOAD;
@@ -128,15 +129,7 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
             entity.setIsNew(0);
         } else {
             entity.setIsNew(1);
-            entity.setModifyTime(DateUtil.convert(new Date()));
         }
-        spFileManager.saveSPFile(entity);
-        return RELOAD;
-    }
-
-    public String refresh() {
-        entity = spFileManager.getSPFile(id);
-        entity.setModifyTime(DateUtil.convert(new Date()));
         spFileManager.saveSPFile(entity);
         return RELOAD;
     }
@@ -152,7 +145,7 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
     public String getSubTypesByParentId() {
         List<SPItem> newSubTypes = new ArrayList<>();
         if (categoryId != null) {
-            SPItem spItem = videoTypeService.getById(categoryId);
+            SPItem spItem = spFileManager.getById(categoryId);
             newSubTypes = spItem.getChildren();
         }
         String json = spFileManager.jsonString(newSubTypes);
@@ -197,7 +190,7 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
                     d = Double.parseDouble(String.format("%.2f", d));
                     //设置文件大小
                     entity.setSize(d);
-                    int duration =new Random().nextInt(15)+5;
+                    int duration = (int) (Math.random() + 30);
                     //设置视频时长
                     entity.setDuration(duration);
                 }
@@ -248,10 +241,6 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
         this.spFileManager = spFileManager;
     }
 
-    @Autowired
-    public void setVideoTypeService(VideoTypeService videoTypeService) {
-        this.videoTypeService = videoTypeService;
-    }
 
     public Page<SPFile> getPage() {
         return page;
@@ -339,14 +328,6 @@ public class SpfileAction extends CRUDActionSupport<SPFile> {
 
     public void setSonCategory(String sonCategory) {
         this.sonCategory = sonCategory;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 
     public List<Long> getCheckedItems() {

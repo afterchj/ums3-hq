@@ -144,8 +144,9 @@ public class FileUtils {
             File targetDir = new File(destPath);
             File targetFile = new File(targetDir, UUIDGenerator.uuid2() + "." + extension);
             org.apache.commons.io.FileUtils.copyFile(srcFile, targetFile);
-//            String str = StringUtils.substringAfter(targetFile.getPath(), Constants.LOCKER_STORAGE);
-            return substringAfter(targetFile.getPath(), "ums3-hq");
+            String str = targetFile.getPath();
+            return str.substring(str.lastIndexOf(File.separator) + 1, str.length());
+//            return substringAfter(targetFile.getPath(), "ums3-hq");
 
         }
         return "";

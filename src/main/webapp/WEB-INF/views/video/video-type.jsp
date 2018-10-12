@@ -52,7 +52,7 @@
         <s:iterator value="items">
             <tr>
                 <td>${value}</td>
-                <td><img alt="${name}" src="${ctx}/files/${icon}" style="height: 50px;width: 50px;"></td>
+                <td><img alt="${name}" src="${ctx}/files/${icon}" style="height: 50px;width: 80px;"></td>
                     <%--<td><img alt="${name}" src="${icon}" style="height: 30px;width: 50px;"></td>--%>
                 <td>${name}</td>
                 <td>${description}</td>

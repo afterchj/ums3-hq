@@ -21,6 +21,18 @@ public class SPFileDao extends HibernateDao<SPFile, Long> {
 
     private static final String QUERY_SPFILE_BY_STATUS = "";
 
+    private static final String QUERY_USER_SPFILE = "select f from SPFile f where f.status = 1 and f.isCheck = 1 order by f.modifyTime desc,f.id desc";
+
+    private static final String QUERY_USER_SPFILE_BY_CATEGORY1 = "select f from SPFile f join f.items i where i.id = ? and f.status = 1 and f.isCheck = 1 order by f.modifyTime desc,f.id desc";
+
+    private static final String QUERY_USER_SPFILE_BY_CATEGORY2 = "select f from SPFile f join f.items i join f.items i2 where i.id = ? and i2.id = ? and f.status = 1 and f.isCheck = 1 order by f.modifyTime desc,f.id desc";
+
+    private static final String QUERY_OFFICIAL_SPFILE = "select f from SPFile f where f.status = 1 and f.isCheck IS NULL order by f.modifyTime desc,f.id desc";
+
+    private static final String QUERY_OFFICIAL_SPFILE_BY_CATEGORY1 = "select f from SPFile f join f.items i where i.id = ? and f.status = 1 and f.isCheck IS NULL order by f.modifyTime desc,f.id desc";
+
+    private static final String QUERY_OFFICIAL_SPFILE_BY_CATEGORY2 = "select f from SPFile f join f.items i join f.items i2 where i.id = ? and i2.id = ? and f.status = 1 and f.isCheck IS NULL order by f.modifyTime desc,f.id desc";
+
     public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId) {
         if (categoryId == null && sonCategoryId == null) {
             return findPage(page, QUERY_SPFILE);
@@ -30,6 +42,40 @@ public class SPFileDao extends HibernateDao<SPFile, Long> {
             return findPage(page, QUERY_SPFILE_BY_CATEGORY1, sonCategoryId);
         } else {
             return findPage(page, QUERY_SPFILE_BY_CATEGORY2, categoryId, sonCategoryId);
+        }
+    }
+
+    public Page<SPFile> searchSPFileByCategory(final Page<SPFile> page, Long categoryId, Long sonCategoryId, String source) {
+        if(source ==null || "".equals(source) || "0".equals(source)) {
+            if (categoryId == null && sonCategoryId == null) {
+                return findPage(page, QUERY_SPFILE);
+            } else if (categoryId != null && sonCategoryId == null) {
+                return findPage(page, QUERY_SPFILE_BY_CATEGORY1, categoryId);
+            } else if (categoryId == null && sonCategoryId != null) {
+                return findPage(page, QUERY_SPFILE_BY_CATEGORY1, sonCategoryId);
+            } else {
+                return findPage(page, QUERY_SPFILE_BY_CATEGORY2, categoryId, sonCategoryId);
+            }
+        }else if("1".equals(source)){
+            if (categoryId == null && sonCategoryId == null) {
+                return findPage(page, QUERY_USER_SPFILE);
+            } else if (categoryId != null && sonCategoryId == null) {
+                return findPage(page, QUERY_USER_SPFILE_BY_CATEGORY1, categoryId);
+            } else if (categoryId == null && sonCategoryId != null) {
+                return findPage(page, QUERY_USER_SPFILE_BY_CATEGORY1, sonCategoryId);
+            } else {
+                return findPage(page, QUERY_USER_SPFILE_BY_CATEGORY2, categoryId, sonCategoryId);
+            }
+        }else {
+            if (categoryId == null && sonCategoryId == null) {
+                return findPage(page, QUERY_OFFICIAL_SPFILE);
+            } else if (categoryId != null && sonCategoryId == null) {
+                return findPage(page, QUERY_OFFICIAL_SPFILE_BY_CATEGORY1, categoryId);
+            } else if (categoryId == null && sonCategoryId != null) {
+                return findPage(page, QUERY_OFFICIAL_SPFILE_BY_CATEGORY1, sonCategoryId);
+            } else {
+                return findPage(page, QUERY_OFFICIAL_SPFILE_BY_CATEGORY2, categoryId, sonCategoryId);
+            }
         }
     }
 

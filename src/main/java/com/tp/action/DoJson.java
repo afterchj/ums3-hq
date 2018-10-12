@@ -23,6 +23,7 @@ public class DoJson extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String pid = request.getParameter("pid");
+        System.out.println("pid=" + pid);
         List<Object> subList;
         String result;
         if (StringUtils.isNotEmpty(pid)) {
