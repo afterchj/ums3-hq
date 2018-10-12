@@ -18,21 +18,21 @@
             <%--$("#children option[value=" + '${param.children}' + "]").attr("selected", true);--%>
 
             var getSubItems = function (pid, flag) {
-                    $.ajax({
-                        type: "get",
-                        url: "getJson?pid=" + pid,
-                        success: function (result) {
-                            var data = JSON.parse(result);
-                            var obj = document.getElementById("children");
-                            var cid = $("#children option:selected").val();
-                            obj.length = flag;
-                            for (var i = 0; i < data.length; i++) {
-                                if (data[i].id!=cid){
-                                    obj.options.add(new Option(data[i].name, data[i].id));
-                                }
+                $.ajax({
+                    type: "get",
+                    url: "getJson?pid=" + pid,
+                    success: function (result) {
+                        var data = JSON.parse(result);
+                        var obj = document.getElementById("children");
+                        var cid = $("#children option:selected").val();
+                        obj.length = flag;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].id != cid) {
+                                obj.options.add(new Option(data[i].name, data[i].id));
                             }
-                        },
-                    });
+                        }
+                    },
+                });
             };
             $("#parent").change(function () {
                 var pid = $("#parent option:selected").val();
@@ -225,7 +225,7 @@
                      src="http://www.uichange.com/public/account/user/icon/00002fc1e01646e497c996c64a91b455-656.png">
             </td>
             <td>测试</td>
-            <td><a href="http://www.uichange.com/ums3-client2/files/${downloadPath}" target="_blank">视频预览</a></td>
+            <td><a href="${ctx}/files/${downloadPath}" target="_blank">视频预览</a></td>
             <td><a href="file/spfile!input.action?id=${id}&page.pageNo=${page.pageNo}">${name}</a></td>
             <td>${lable}</td>
             <td>${items[0].name}</td>
@@ -240,8 +240,7 @@
                 <s:elseif test="status==1">
                     <a href="javascript:void(0)" onclick="changeStatus(${id})"><i class="icon-circle"></i></a>
                 </s:elseif>
-                <a href="http://www.uichange.com/ums3-client2/files/${downloadPath}" download="" target="_blank"><i
-                        class="icon-download"></i></a>
+                <a href="${ctx}/files/${downloadPath}" download="" target="_blank"><i class="icon-download"></i></a>
                 <a href="javascript:void(0)" onclick="deleteThis(${id})"><i class="icon-trash"></i></a>
                 <a href="file/spfile!input.action?id=${id}"><i class="icon-edit"></i></a>
 
@@ -257,8 +256,7 @@
         <%--<input type="checkbox" value="全不选" id="unSelect"/>全不选--%>
         <%--<input type="checkbox" value="反选" id="reverseSelect"/>反选--%>
         <a href="javascript:void(0)" id="changeAll"><i class="icon-circle-blank"></i></a>
-        <a href="http://www.uichange.com/ums3-client2/files/${downloadPath}" download=""><i
-                class="icon-download"></i></a>
+        <a href="${ctx}/files/${downloadPath}" download=""><i class="icon-download"></i></a>
         <a href="javascript:void(0)" id="deleteAll"><i class="icon-trash"></i></a></p>
 </div>
 <%@include file="/common/page.jsp" %>

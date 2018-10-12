@@ -70,7 +70,7 @@ public class VideoFileAction extends CRUDActionSupport<SPFile> {
             subTypes = spItem.getChildren();
         }
         System.out.println("categoryId=" + categoryId + "\t" + "sonCategoryId=" + sonCategoryId);
-        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId);
+        page = spFileManager.searchSPFileByCategory(page, categoryId, sonCategoryId,"");
         sliders = page.getSlider(10);
         return SUCCESS;
     }

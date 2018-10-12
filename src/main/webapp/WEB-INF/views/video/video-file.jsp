@@ -123,7 +123,7 @@
                 <td><a href="video/video-file!input.action?id=${id}&page.pageNo=${page.pageNo}">${name}</a></td>
                 <td>${createTime}</td>
                 <td>${modifyTime}</td>
-                <td><a href="http://www.uichange.com/ums3-client2/files/${downloadPath}" target="_blank">视频预览</a></td>
+                <td><a href="${ctx}/files/${downloadPath}" target="_blank">视频预览</a></td>
                 <td><shiro:hasPermission name="file:edit">
                     <s:if test="isNew==1">
                         <a href="javascript:void(0)"
