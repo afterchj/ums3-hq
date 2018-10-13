@@ -120,7 +120,7 @@
             <ul class="nav nav-list">
                 <li class="nav-header" onclick="show('test2')"><i class="icon-book"></i>视频管理</li>
                 <ul class="myTp" id="test2">
-                    <li id="splock-tab"><a href="video/video-file.action">视频列表</a></li>
+                    <li id="splock-tab"><a href="file/spfile.action">视频列表</a></li>
                     <li id="category-sp"><a href="video/video-type.action">视频分类</a></li>
                     <li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>
                     <li id="spadvertisement-tab"><a

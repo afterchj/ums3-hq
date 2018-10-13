@@ -33,7 +33,7 @@ public class Constants {
 
 	public static String WORK_PIC;
 	
-	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" };
+	public final static String[] IMG_EXTENSION = { "jpg", "jpeg", "gif", "bmp", "png" ,".mp4"};
 
 	public static final String ENCODE_UTF_8 = "UTF-8";
 

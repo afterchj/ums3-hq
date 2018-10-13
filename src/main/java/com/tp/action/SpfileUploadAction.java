@@ -26,15 +26,20 @@ import java.util.List;
 @Namespace("/file")
 @Results({
         @Result(name = "editinfo", location = "spfile.action", type = "redirect"),
-        @Result(name = "reupload", location = "spfile-upload.jsp", type = "dispatcher")})
+        @Result(name = "reupload", location = "spfile-upload.jsp", type = "dispatcher"),
+        @Result(name = "user", location = "spfile-user.jsp", type = "dispatcher")})
 public class SpfileUploadAction extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
     private static final String RELOAD = "reupload";
     private static final String EDITINFO = "editinfo";
+    private static final String USER = "user";
 
     private File upload;
     private String uploadFileName;
+    private File[] userUpload;
+    private String[] userUploadFileName;//上传的文件名。上传字段名称+FileName  注意大小写
+    private String[] userUploadContentType;
     private String name;
     private Integer isRecommend;
     private String lable;
@@ -59,6 +64,36 @@ public class SpfileUploadAction extends ActionSupport {
     private void init() {
         parentTypes = videoTypeService.getParentTypes();
         subTypes = videoTypeService.getSubTypes();
+    }
+
+    public String user() {
+        init();
+        return USER;
+    }
+
+    public String userUpload() {
+        init();
+        System.out.println("................................................!");
+        SPFile entity = getSPFile();
+        for (int i = 0; i < userUpload.length; i++) {
+//            System.out.println("type============================" + userUploadContentType[i]);
+            try {
+                String path = FileUtils.getIcon(userUpload[i], Constants.CATEGROY_STORAGE, userUploadFileName[i]);
+//                System.out.println("fileName============================="+userUploadFileName[i]);
+//                System.out.println("path===========================" + path);
+                String suffix = path.substring(path.lastIndexOf(".", path.length()));
+                if (suffix.toLowerCase().equals(".jpg") || suffix.toLowerCase().equals(".png")) {
+                    entity.setIconPath(path);
+                } else {
+                    entity.setDownloadPath(path);
+                }
+                spFileManager.saveSPFile(entity);
+                addActionMessage("上传成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return EDITINFO;
     }
 
     @RequiresPermissions("file:edit")
@@ -150,6 +185,30 @@ public class SpfileUploadAction extends ActionSupport {
 
     public void setUploadFileName(String uploadFileName) {
         this.uploadFileName = uploadFileName;
+    }
+
+    public File[] getUserUpload() {
+        return userUpload;
+    }
+
+    public void setUserUpload(File[] userUpload) {
+        this.userUpload = userUpload;
+    }
+
+    public String[] getUserUploadFileName() {
+        return userUploadFileName;
+    }
+
+    public void setUserUploadFileName(String[] userUploadFileName) {
+        this.userUploadFileName = userUploadFileName;
+    }
+
+    public String[] getUserUploadContentType() {
+        return userUploadContentType;
+    }
+
+    public void setUserUploadContentType(String[] userUploadContentType) {
+        this.userUploadContentType = userUploadContentType;
     }
 
     public String getName() {

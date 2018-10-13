@@ -88,6 +88,9 @@
 
         });
 
+        function doupload() {
+            window.location = "file/spfile-upload!user.action?categoryId=" + '${param['categoryId']}' + "&sonCategoryId=" + '${param['sonCategoryId']}';
+        }
 
         function deleteThis(id) {
             if (confirm("确定要删除吗?")) {
@@ -201,6 +204,9 @@
             <li><input style="margin-left: 28px" class="btn btn-primary" id="btn-submit" type="submit" value="查询"></li>
         </ul>
 </form>
+<div class="pull-right">
+    <a class="icon-plus" href="javascript:void(0)" onclick="doupload();">新增</a>
+</div>
 <table class="table table-hover">
     <thead>
     <tr>
