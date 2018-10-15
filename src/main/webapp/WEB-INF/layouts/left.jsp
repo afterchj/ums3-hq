@@ -123,6 +123,7 @@
                     <li id="splock-tab"><a href="file/spfile.action">视频列表</a></li>
                     <li id="category-sp"><a href="video/video-type.action">视频分类</a></li>
                     <li id="sptopic-tab"><a href="category/sptopic.action">视频专题</a></li>
+                    <li id="spSearch-tab"><a href="category/search.action">热搜列表</a></li>
                     <li id="spadvertisement-tab"><a
                             href="poll/spadvertisement.action?filter_EQS_store=video&filter_EQS_dtype=top">广告位列表</a>
                     </li>
